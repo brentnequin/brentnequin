@@ -9,14 +9,12 @@
 #         self.wfile.write('Hello, world!'.encode('utf-8'))
 #         return
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, make_response
 
 app = Flask(__name__)
 
 @app.route('/', methods = ['GET'])
 def index():
     if(request.method == 'GET'):
-        return jsonify(
-            status=200,
-            message=Hello World
-        )
+        message = jsonify(message='Hello World')
+        return make_response(message, 200)
