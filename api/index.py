@@ -16,7 +16,7 @@ app = Flask(__name__)
 @app.route('/', methods = ['GET'])
 def index():
     if(request.method == 'GET'):
-        return jsonify({
-            'status': 200
-            'message': 'Hello World'
-        })
+        return jsonify(
+            status=200,
+            message=Hello World
+        )
