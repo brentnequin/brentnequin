@@ -17,6 +17,6 @@ app = Flask(__name__)
 def index():
     if(request.method == 'GET'):
         return jsonify({
-            status: 200
-            message: 'Hello World'
+            'status': 200
+            'message': 'Hello World'
         })
