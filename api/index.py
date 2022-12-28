@@ -1,10 +1,14 @@
-from http.server import BaseHTTPRequestHandler
+from flask import Flask, jsonify, make_response
+from flask_restful import Resource, Api
 
-class handler(BaseHTTPRequestHandler):
+app = Flask(__name__)
+api = Api(app)
 
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type','text/plain')
-        self.end_headers()
-        self.wfile.write('Hello, world!'.encode('utf-8'))
-        return
+class HelloWorld(Resource):
+    def get(self):
+        return {'message': 'hello world'}
+    
+api.add_resource(HelloWorld, '/api')
+
+if __name__ == '__main__':
+    app.run(debug=True)
