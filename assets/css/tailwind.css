@@ -13,8 +13,8 @@
     }
 
     .dark body {
-        background-color: #091a28;
-        color: #ebf4f1;
+        background-color: rgba(24, 24, 27, 1);
+        color: #fff;
     }
 
     .sepia body {

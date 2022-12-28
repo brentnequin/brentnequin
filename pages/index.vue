@@ -1,5 +1,5 @@
 <template>
-    <div class="container my-20">
+    <div class="container my-20 px-16">
         <div class="flex justify-center items-center space-x-4">
             <ThePhoto />
             <div class="space-y-2">

@@ -17,13 +17,13 @@ module.exports = {
     },
     container: {
       center: true,
-      padding: '10rem',
+      padding: '2rem',
       screens: {
         sm: '600px',
         md: '728px',
-        lg: '984px',
-        xl: '984px',
-        '2xl': '984px',
+        lg: '728px',
+        xl: '728px',
+        '2xl': '728px',
       },
     },
   },
