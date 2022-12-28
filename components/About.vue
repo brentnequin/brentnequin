@@ -2,9 +2,9 @@
     <div class="container my-24">
         <h2 class="text-2xl my-8">Bio</h2>
         <div class="mx-8">
-            <div v-for="item, index in timeline" :key="index" class="flex">
-                <span class="min-w-[30%] sm:min-w-[25%] md:min-w-[20%]">{{ item.year + (item.present ? " - Present" : "") }}</span>
-                <span>{{ item.description }}</span>
+            <div v-for="item, index in timeline" :key="index" class="grid grid-cols-4 gap-4">
+                <span class="col-span-1">{{ item.year + (item.present ? " - Present" : "") }}</span>
+                <span class="col-span-3">{{ item.description }}</span>
             </div>
         </div>
     </div>
