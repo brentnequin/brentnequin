@@ -1,19 +1,20 @@
 <template>
     <button @click="toggleDarkMode">
-        <icon-sun class="text-2xl" v-if="$colorMode.value === 'light'" />
-        <icon-moon class="text-2xl" v-if="$colorMode.value === 'dark'" />
+        <ColorScheme>
+            <icon-awake class="text-xl" v-if="$colorMode.value === 'light'" />
+            <icon-moon class="text-xl" v-else-if="$colorMode.value === 'dark'" />
+            <icon-awake class="text-xl" v-else />
+        </ColorScheme>
     </button>
 </template>
 
 <script setup>
-import IconSun from '~icons/carbon/sun'
+import IconAwake from '~icons/carbon/awake'
 import IconMoon from '~icons/carbon/moon'
 
 const colorMode = useColorMode()
 
-console.log(colorMode.value)
-
 function toggleDarkMode() {
-    colorMode.value = colorMode.value === 'light' ? 'dark' : 'light'
+    colorMode.preference = colorMode.preference === 'light' ? 'dark' : 'light'
 }
 </script>
