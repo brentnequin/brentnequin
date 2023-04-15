@@ -8,7 +8,7 @@
             </div>
         </div>
     </div>
-    <About />
+    <!-- <About /> -->
     <!-- <h2 class="container text-2xl my-16">Blog</h2>
     <h2 class="container text-2xl my-16">Projects</h2> -->
 </template>
