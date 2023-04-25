@@ -8,7 +8,7 @@
             <nav></nav>
         </div>
         <div class="flex space-x-4">
-            <ButtonDarkMode class="mx-2" />
+            <ButtonDarkMode class="mx-2 text-2xl" />
         </div>
     </header>
 </template>

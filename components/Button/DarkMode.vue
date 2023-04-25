@@ -1,9 +1,9 @@
 <template>
     <button @click="toggleDarkMode">
         <ColorScheme>
-            <icon-awake class="text-xl" v-if="$colorMode.value === 'light'" />
-            <icon-moon class="text-xl" v-else-if="$colorMode.value === 'dark'" />
-            <icon-awake class="text-xl" v-else />
+            <icon-awake v-if="$colorMode.value === 'light'" />
+            <icon-moon v-else-if="$colorMode.value === 'dark'" />
+            <icon-awake v-else />
         </ColorScheme>
     </button>
 </template>
