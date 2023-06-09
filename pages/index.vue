@@ -32,5 +32,6 @@
 import IconLinkedIn from '~icons/carbon/logo-linkedin'
 import IconGitHub from '~icons/carbon/logo-github'
 
+useSeoMeta({title: 'Brent Nequin'})
 definePageMeta({layout: "centered"});
 </script>
