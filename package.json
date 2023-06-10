@@ -1,5 +1,10 @@
 {
-  "private": true,
+  "name": "brentnequin",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brentnequin/brentnequin.git"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
