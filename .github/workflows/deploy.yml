@@ -34,7 +34,7 @@ jobs:
     - name: Terraform Plan
       run: terraform -chdir=terraform plan -input=false
       env:
-        vercel_api_token: ${{ secrets.VERCEL_API_TOKEN }}
+        TF_VAR_vercel_api_token: ${{ secrets.VERCEL_API_TOKEN }}
 
     - name: Terraform Apply
       run: terraform -chdir=terraform apply -auto-approve -input=false
