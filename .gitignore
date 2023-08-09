@@ -10,3 +10,8 @@ dist
 # nuxt/storybook
 .nuxt-storybook
 storybook-static
+
+# terraform
+secrets.auto.tfvars
+.terraform
+.terraform.lock.hcl
