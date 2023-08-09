@@ -5,9 +5,6 @@
           "dependsOn": ["^build"],
           "outputs": [".nuxt/**", "!.nuxt/cache/**"]
         },
-        "deploy": {
-          "dependsOn": ["build", "test", "lint"]
-        },
         "lint": {},
         "dev": {
           "cache": false,
