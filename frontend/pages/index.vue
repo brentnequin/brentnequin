@@ -8,12 +8,11 @@
             </div>
         </div>
     </div>
-    <!-- <div class="px-16 my-12 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-        <NuxtLink to="#" class="rounded-lg bg-slate-300 px-4 py-2 dark:bg-slate-700">About</NuxtLink>
+    <div class="px-16 my-12 grid grid-cols-3 gap-4 text-center">
+        <NuxtLink to="#" class="rounded-lg bg-slate-300 px-4 py-2 dark:bg-slate-700">About Me</NuxtLink>
         <NuxtLink to="#" class="rounded-lg bg-slate-300 px-4 py-2 dark:bg-slate-700">Projects</NuxtLink>
-        <NuxtLink to="#" class="rounded-lg bg-slate-300 px-4 py-2 dark:bg-slate-700">Posts</NuxtLink>
-        <NuxtLink to="#" class="rounded-lg bg-slate-300 px-4 py-2 dark:bg-slate-700">Contact</NuxtLink>
-    </div> -->
+        <NuxtLink to="#" class="rounded-lg bg-slate-300 px-4 py-2 dark:bg-slate-700">TIL</NuxtLink>
+    </div>
     <div class="px-16 my-12 flex justify-center space-x-8">
         <NuxtLink to="https://www.linkedin.com/in/brentnequin">
             <IconLinkedIn class="text-4xl" />
