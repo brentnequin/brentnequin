@@ -30,11 +30,11 @@ jobs:
 
     - name: Terraform Init
       run: terraform -chdir=terraform init -input=false
-      env:
-        VERCEL_API_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
 
     - name: Terraform Plan
       run: terraform -chdir=terraform plan -input=false
+      env:
+        vercel_api_token: ${{ secrets.VERCEL_API_TOKEN }}
 
     - name: Terraform Apply
       run: terraform -chdir=terraform apply -auto-approve -input=false
