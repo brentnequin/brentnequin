@@ -5,7 +5,8 @@
           "dependsOn": ["^build"],
           "outputs": [
             "dist/**",
-            ".output/**"
+            ".output/**",
+            ".vercel_build_output/**"
           ]
         },
         "lint": {},
