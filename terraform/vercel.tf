@@ -7,7 +7,8 @@ resource "vercel_project" "frontend" {
         repo = "brentnequin/brentnequin"
     }
 
-    build_command = "cd .. && npx turbo run build --scope=frontend"
+    build_command = "cd .. && npx turbo run build --scope=frontend —includeDependencies"
+    output_directory = ".vercel_build_output"
     root_directory = "frontend"
 }
 
