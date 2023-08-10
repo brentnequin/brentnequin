@@ -7,9 +7,8 @@ resource "vercel_project" "frontend" {
         repo = "brentnequin/brentnequin"
     }
 
-    # build_command = "cd .. && npx turbo run build --scope=frontend"
-    build_command = "npx turbo run build --scope=frontend"
-    # root_directory = "frontend"
+    build_command = "cd .. && npx turbo run build --scope=frontend"
+    root_directory = "frontend"
 }
 
 resource "vercel_project_domain" "frontend" {
