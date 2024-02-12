@@ -1,14 +1,25 @@
 {
-    "packageManager": "yarn@1.22.19",
-    "workspaces": [
-        "frontend"
-    ],
-    "scripts": {
-        "dev": "turbo run dev",
-        "terraform:init": "terraform -chdir=terraform init",
-        "terraform:validate": "terraform -chdir=terraform validate",
-        "terraform:plan": "terraform -chdir=terraform plan",
-        "terraform:apply": "terraform -chdir=terraform apply --auto-approve"
-    },
-    "private": true
+  "name": "frontend",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.1.11",
+    "@iconify-json/fa6-solid": "^1.1.10",
+    "@iconify-json/mdi": "^1.1.39",
+    "@nuxt/content": "^2.7.2",
+    "@nuxtjs/color-mode": "^3.2.0",
+    "@nuxtjs/google-fonts": "^3.0.0-1",
+    "autoprefixer": "^10.4.13",
+    "nuxt": "^3.5.3",
+    "postcss": "^8.4.20",
+    "tailwindcss": "^3.2.4",
+    "unplugin-icons": "^0.14.15"
+  },
+  "dependencies": {}
 }

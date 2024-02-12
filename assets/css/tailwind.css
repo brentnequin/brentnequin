@@ -22,3 +22,7 @@
         color: #433422;
     }
 }
+
+.title {
+    @apply text-4xl
+}

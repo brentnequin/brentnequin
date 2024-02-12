@@ -30,5 +30,12 @@ export default defineNuxtConfig({
   },
   colorMode: {
     classSuffix: ''
+  },
+  vite: {
+    server: {
+      watch: {
+        usePolling: true
+      }
+    }
   }
 })
