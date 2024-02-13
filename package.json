@@ -9,9 +9,10 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "3.10.1",
-    "vue": "3.4.15",
-    "vue-router": "4.2.5",
+    "@nuxt/devtools": "^1.0.3",
+    "nuxt": "^3.8.2",
+    "vue": "^3.3.8",
+    "vue-router": "^4.2.5",
     "@iconify-json/carbon": "^1.1.11",
     "@iconify-json/fa6-solid": "^1.1.10",
     "@iconify-json/mdi": "^1.1.39",
