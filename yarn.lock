@@ -876,7 +876,7 @@
     rc9 "^2.1.1"
     semver "^7.5.4"
 
-"@nuxt/devtools@^1.0.3", "@nuxt/devtools@^1.0.8":
+"@nuxt/devtools@^1.0.8":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@nuxt/devtools/-/devtools-1.0.8.tgz#d8edbb016f5194a7255f90623a205b484df77e26"
   integrity sha512-o6aBFEBxc8OgVHV4OPe2g0q9tFIe9HiTxRiJnlTJ+jHvOQsBLS651ArdVtwLChf9UdMouFlpLLJ1HteZqTbtsQ==
