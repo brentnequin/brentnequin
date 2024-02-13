@@ -6,6 +6,12 @@ export default defineNuxtConfig({
       'pages/**/-*'
     ]
   },
+  $development: {
+    modules: [
+      '@nuxtjs/google-fonts',
+      '@nuxtjs/color-mode',
+    ]
+  },
   css: [
     '~/assets/css/tailwind.css',
   ],
@@ -16,10 +22,9 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    '@nuxtjs/google-fonts',
-    '@nuxtjs/color-mode',
     'unplugin-icons/nuxt',
-    '@nuxt/content'
+    '@nuxt/content',
+    '@pinia/nuxt',
   ],
   googleFonts: {
     download: true,

@@ -5,9 +5,12 @@
                 <TheIcon class="text-4xl" />
                 <TheBrand class="text-2xl" />
             </NuxtLink>
-            <nav></nav>
         </div>
         <div class="flex space-x-4">
+            <nav class="flex items-center">
+                <NuxtLink to="/posts" class="flex items-center">Posts
+                </NuxtLink>
+            </nav>
             <ButtonDarkMode class="mx-2 text-2xl" />
         </div>
     </header>
