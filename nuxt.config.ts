@@ -24,7 +24,6 @@ export default defineNuxtConfig({
   modules: [
     'unplugin-icons/nuxt',
     '@nuxt/content',
-    '@pinia/nuxt',
   ],
   googleFonts: {
     download: true,
