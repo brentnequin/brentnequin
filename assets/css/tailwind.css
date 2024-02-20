@@ -5,11 +5,13 @@
 @layer base {
     body {
         font-family: 'M PLUS Rounded 1c', sans-serif;
+        color: #fff;
+
     }
 
     body {
-        background-color: #fff;
-        color: rgba(0, 0, 0, 0.8);
+        background-color: #4e755a;
+        /* color: rgba(0, 0, 0, 0.8); */
     }
 
     .dark body {
@@ -20,6 +22,11 @@
     .sepia body {
         background-color: #f1e7d0;
         color: #433422;
+    }
+
+    a {
+        color: #fff;
+        @apply hover:underline underline-offset-8
     }
 }
 

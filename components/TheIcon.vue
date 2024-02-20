@@ -1,5 +1,5 @@
 <template>
-    <icon-music-rest-quarter />
+    <icon-music-rest-quarter class="text-black" />
 </template>
 
 <script setup>
