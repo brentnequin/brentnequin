@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from 'tailwindcss'
+
+export default <Partial<Config>> {
   darkMode: 'class',
   content: [
     "./components/**/*.{js,vue,ts}",
@@ -7,7 +8,7 @@ module.exports = {
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
     "./nuxt.config.{js,ts}",
-    "./app.vue",
+    "./app.vue"
   ],
   theme: {
     extend: {

@@ -26,31 +26,5 @@
 <script>
 export default {
 
-    // data() {
-    //     return {
-    //         pages: [],
-    //         numPagesLoaded: 2,
-    //     }
-    // },
-
-    // computed: {
-    //     loadedPages() {
-    //         return this.pages.slice(0, this.numPagesLoaded)
-    //     },
-    //     isAllPagesLoaded() {
-    //         return this.numPagesLoaded >= this.pages.length
-    //     }
-    // },
-
-    // methods: {
-    //     loadMorePages() {
-    //         this.numPagesLoaded += 2
-    //         console.log(this.numPagesLoaded)
-    //     }
-    // },
-
-    // async fetch () {
-    //     this.pages = await this.$store.dispatch('getPages', this.$config.NOTION_API_DATABASE_ID_DOCS)
-    // }
 }
 </script>

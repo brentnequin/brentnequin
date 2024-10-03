@@ -1,4 +1,4 @@
-type Post = {
+export type Post = {
   categories: Array<string>,
   content: string,
   description: string,
