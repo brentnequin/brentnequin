@@ -36,7 +36,7 @@ const { posts, getPosts } = usePosts();
 await getPosts();
 
 posts.value
-  .sort((first, second) => new Date(first.pubDate) - new Date(second.pubDate))
+  .sort((first, second) => new Date(first.pubDate).valueOf() - new Date(second.pubDate).valueOf())
   .slice(0, 4);
 
 const dateFormat = (date: string) => new Date(date)
