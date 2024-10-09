@@ -34,6 +34,7 @@ export default defineNuxtConfig({
   googleFonts: {
     download: true,
     display: "swap",
+    preload: true,
     families: {
       'M PLUS Rounded 1c': [400],
     }
