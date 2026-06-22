@@ -1,56 +1,14 @@
-// @ts-nocheck
+import tailwindcss from "@tailwindcss/vite";
+
+// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  $production: {
-    ignore: [
-      'pages/test/**/*',
-      'pages/**/-*'
-    ]
-  },
-
-  imports: {
-    dirs: [
-      'types/**/*.ts'
-    ]
-  },
-
-  css: [
-    '~/assets/css/tailwind.css',
-  ],
-
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
-
-  modules: [
-    'unplugin-icons/nuxt',
-    '@nuxt/content',
-    '@nuxtjs/google-fonts',
-    // '@nuxtjs/color-mode',
-  ],
-
-  googleFonts: {
-    download: true,
-    display: "swap",
-    preload: true,
-    families: {
-      'M PLUS Rounded 1c': [400],
-    }
-  },
-
-  colorMode: {
-    classSuffix: ''
-  },
-
+  compatibilityDate: '2025-07-15',
+  devtools: { enabled: true },
+  modules: [],
+  css: ['./assets/css/main.css'],
   vite: {
-    server: {
-      watch: {
-        usePolling: true
-      }
-    }
+    plugins: [
+      tailwindcss(),
+    ],
   },
-
-  compatibilityDate: '2024-10-02'
 })
