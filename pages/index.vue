@@ -6,7 +6,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-950 text-white">
+  <div class="min-h-screen">
     <main class="mx-auto max-w-6xl px-6 py-16">
       <!-- Hero -->
       <section class="mb-24">
@@ -18,7 +18,7 @@ useSeoMeta({
           Senior Software Engineer · Chicago, IL
         </p>
 
-        <p class="mt-6 max-w-2xl text-lg text-gray-300 leading-8">
+        <p class="mt-6 max-w-2xl text-lg dark:text-gray-300 leading-8">
           Building APIs, cloud infrastructure, and software that
           solves real-world problems with Python, React, and
           modern web technologies.
@@ -27,7 +27,7 @@ useSeoMeta({
         <div class="mt-8 flex flex-wrap gap-4">
           <NuxtLink
             to="/projects"
-            class="rounded-lg bg-white px-5 py-3 text-black font-medium hover:bg-gray-200"
+            class="rounded-lg bg-gray-400 dark:bg-white px-5 py-3 text-black font-medium hover:bg-gray-200"
           >
             View Projects
           </NuxtLink>
@@ -47,7 +47,7 @@ useSeoMeta({
           About
         </h2>
 
-        <p class="max-w-3xl text-gray-300 leading-8">
+        <p class="max-w-3xl dark:text-gray-300 leading-8">
           I'm a Senior Software Engineer specializing in Python,
           APIs, cloud infrastructure, and full-stack applications.
           I enjoy creating tools that simplify complex problems
@@ -85,7 +85,7 @@ useSeoMeta({
           Currently
         </h2>
 
-        <ul class="space-y-3 text-gray-300">
+        <ul class="space-y-3 dark:text-gray-300">
           <li>⚡ Building my Personal API</li>
           <li>📚 Learning Nuxt</li>
           <li>☁️ Exploring Terraform and cloud automation</li>
@@ -98,7 +98,7 @@ useSeoMeta({
           Recent Movie Recommendations
         </h2>
 
-        <MovieRecommendations />
+        <!-- <MovieRecommendations /> -->
       </section>
     </main>
   </div>
