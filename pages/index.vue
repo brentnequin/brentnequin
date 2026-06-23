@@ -1,3 +1,10 @@
+<script setup lang="ts">
+useSeoMeta({
+  title: 'Brent Nequin',
+  description: 'Senior Software Engineer building APIs, web applications, and personal projects.',
+})
+</script>
+
 <template>
   <div class="min-h-screen bg-gray-950 text-white">
     <main class="mx-auto max-w-6xl px-6 py-16">
