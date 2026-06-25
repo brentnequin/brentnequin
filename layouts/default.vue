@@ -6,7 +6,7 @@
         dark:bg-gray-950 dark:text-white">
     <AppHeader />
 
-    <main class="flex-1 mx-auto max-w-5xl px-6 py-16">
+    <main class="flex-1 mx-auto max-w-5xl px-6 py-16 flex">
       <slot />
     </main>
 
