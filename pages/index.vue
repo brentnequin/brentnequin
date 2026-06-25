@@ -4,15 +4,15 @@ useSeoMeta({
   description: 'Senior Software Engineer building APIs, web applications, and personal projects.',
 })
 
-definePageMeta({
-  layout: 'centered'
-})
+// definePageMeta({
+//   layout: 'centered'
+// })
 </script>
 
 <template>
-    <div class="mx-auto max-w-6xl px-6 py-16 self-center">
+    <div class="flex min-h-full items-center justify-center px-6">
       <!-- Hero -->
-      <div class="mb-24 self-center">
+      <div class="mb-24">
         <h1 class="text-5xl font-bold tracking-tight">
           Brent Nequin
         </h1>
