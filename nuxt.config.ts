@@ -6,6 +6,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxtjs/color-mode'],
   css: ['./assets/css/main.css'],
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      apiKey: process.env.NUXT_PUBLIC_API_KEY
+    },
+  },
   vite: {
     plugins: [
       tailwindcss(),
