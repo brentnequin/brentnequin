@@ -50,12 +50,12 @@ function toggleTheme() {
         >
           Blog
         </NuxtLink> -->
-        <button
-      class="rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
-      @click="toggleTheme"
-    >
-      {{ colorMode.value === 'dark' ? '🌙' : '☀️' }}
-    </button>
+        <!-- <button
+            class="rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            @click="toggleTheme"
+            >
+            {{ colorMode.value === 'dark' ? '🌙' : '☀️' }}
+        </button> -->
       </div>
     </nav>
   </header>
