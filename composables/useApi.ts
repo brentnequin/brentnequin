@@ -14,7 +14,7 @@ export const useApi = () => {
   })
 
   return {
-    get: <T>(url: string) => apiFetch<T>(url, { method: 'GET' }),
+    get: <T>(url: string, query?: object) => apiFetch<T>(url, { method: 'GET', query: query }),
     post: <T>(url: string, body: any) =>
       apiFetch<T>(url, { method: 'POST', body }),
   }
