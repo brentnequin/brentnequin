@@ -5,4 +5,5 @@ export interface MovieRecommendation {
   recommendedName: string
   createdAt: string
   movie: Movie
+  message: string
 }
