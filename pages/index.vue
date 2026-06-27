@@ -10,8 +10,12 @@ useSeoMeta({
 </script>
 
 <template>
-    <div class="flex min-h-full items-center justify-center px-6">
-      <!-- Hero -->
+    <section
+      class="
+        flex min-h-[calc(100vh-200px)]
+        flex-col items-center justify-center
+      "
+    >
       <div class="mb-24">
         <h1 class="text-5xl font-bold tracking-tight">
           Brent Nequin
@@ -36,12 +40,12 @@ useSeoMeta({
           </NuxtLink>
 
           <NuxtLink
-            to="/movies"
+            to="/movies/recommend"
             class="rounded-lg border border-gray-700 px-5 py-3 hover:bg-gray-900"
           >
             Recommend a Movie
           </NuxtLink>
         </div>
-        </div>
-    </div>
+      </div>
+    </section>
 </template>

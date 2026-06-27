@@ -11,3 +11,8 @@ export const getRecommendations = (options: GetRecommendationsOptions = {}) => {
   const api = useApi()
   return api.get<PaginatedResponse<MovieRecommendation>>('/movie-recommendations', { per_page: options.perPage })
 }
+
+export const createRecommendation = (recommendation: Partial<MovieRecommendation>) => {
+  const api = useApi()
+  return api.post<MovieRecommendation>('/movie-recommendations', recommendation)
+}

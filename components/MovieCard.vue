@@ -19,13 +19,13 @@ defineProps<{
     </div>
 
     <!-- Text -->
-    <div class="mt-3 space-y-1">
+    <div class="mt-3 space-y-1 text-left">
       <h3 class="text-sm font-semibold text-white truncate">
         {{ movie.title }}
       </h3>
 
       <p class="text-xs text-neutral-400">
-        {{ movie.releaseDate }}
+        {{ movie.releaseDate.slice(0, 4)  }}
       </p>
     </div>
   </div>
