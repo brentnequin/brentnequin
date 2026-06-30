@@ -4,11 +4,28 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: [],
+  modules: ['@nuxtjs/color-mode'],
   css: ['./assets/css/main.css'],
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      apiKey: process.env.NUXT_PUBLIC_API_KEY
+    },
+  },
   vite: {
     plugins: [
       tailwindcss(),
     ],
-  }
+  },
+  app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in'
+    }
+  },
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    classSuffix: ''
+  },
 })
