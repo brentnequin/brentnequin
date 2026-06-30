@@ -15,9 +15,9 @@ export const getRecommendations = (options: GetRecommendationsOptions = {}) => {
 export const createRecommendation = (recommendation: Partial<MovieRecommendation>) => {
   const api = useApi()
   const body = {
-    tmdb_id: recommendation.id,
+    tmdbId: recommendation.id,
     message: recommendation.message,
-    recommender_name: recommendation.recommendedName
+    recommenderName: recommendation.recommendedName
   }
   return api.post<MovieRecommendation>('/movie-recommendations', body)
 }
