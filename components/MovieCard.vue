@@ -25,7 +25,7 @@ defineProps<{
       </h3>
 
       <p class="text-xs text-neutral-400">
-        {{ movie.releaseDate.slice(0, 4)  }}
+        {{ movie.releaseDate?.slice(0, 4)  }}
       </p>
     </div>
   </div>
