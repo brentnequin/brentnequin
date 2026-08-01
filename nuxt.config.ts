@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   ],
   css: ['./assets/css/main.css'],
   runtimeConfig: {
-    tmdb_read_access_token: process.env.NUXT_TMDB_READ_ACCESS_TOKEN,
+    tmdbAccessToken: process.env.NUXT_TMDB_ACCESS_TOKEN,
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
       apiKey: process.env.NUXT_PUBLIC_API_KEY
