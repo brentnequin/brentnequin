@@ -15,9 +15,14 @@ const form = reactive({
 
 async function _searchMovies() {
 
-    const response = await searchMovies({query: search.value})
+    // useFetch dynamically updates whenever searchQuery changes
+    const { data: searchResults, pending, error } = await useFetch('/api/movies/search', {
+        query: {
+            query: search.value
+        }
+    })
 
-    results.value = response.results.map((movie) => {
+    results.value = searchResults.value.results.map((movie: any) => {
         return {
             tmdbId: movie.id,
             title: movie.title,
@@ -82,7 +87,7 @@ function recommendAnother() {
 
         <!-- Results -->
         <div
-            class="grid grid-cols-5 gap-8"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8"
             v-if="!selectedMovie && results"
         >
             <MovieCard
@@ -97,7 +102,7 @@ function recommendAnother() {
         <!-- Form -->
         <div class="flex gap-4 text-left" v-if="selectedMovie && !submitted">
             <img
-                :src="`https://image.tmdb.org/t/p/w500${selectedMovie.posterPath}`"
+                :src="selectedMovie.posterPath ? `https://image.tmdb.org/t/p/w500${selectedMovie.posterPath}` : '/placeholder.svg'"
                 :alt="selectedMovie.title"
                 class="h-128 object-cover rounded-xl"
                 loading="lazy"

@@ -7,11 +7,11 @@ defineProps<{
 </script>
 
 <template>
-  <div class="group w-48">
+  <div class="group w-full">
     <!-- Poster -->
     <div class="overflow-hidden rounded-xl bg-neutral-900 shadow-md">
       <img
-        :src="`https://image.tmdb.org/t/p/w500${movie.posterPath}` || '/placeholder.jpg'"
+        :src="movie.posterPath ? `https://image.tmdb.org/t/p/w500${movie.posterPath}` : '/placeholder.svg'"
         :alt="movie.title"
         class="h-72 w-full object-cover transition duration-300 group-hover:scale-105"
         loading="lazy"
