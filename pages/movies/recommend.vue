@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { searchMovies } from '~/services/movies'
 import type { Movie } from '~/types/movie'
 import { createRecommendation } from '~/services/movieRecommendations'
 
@@ -16,7 +15,7 @@ const form = reactive({
 async function _searchMovies() {
 
     // useFetch dynamically updates whenever searchQuery changes
-    const { data: searchResults, pending, error } = await useFetch('/api/movies/search', {
+    const { data: searchResults } = await useFetch('/api/movies/search', {
         query: {
             query: search.value
         }
@@ -36,9 +35,12 @@ async function _submitRecommendation() {
     if (!selectedMovie.value) return
     
     await createRecommendation({
-        id: selectedMovie.value.tmdbId,
+        tmdbId: selectedMovie.value.tmdbId,
+        title: selectedMovie.value.title,
+        posterPath: selectedMovie.value.posterPath,
+        releaseDate: selectedMovie.value.releaseDate,
         message: form.message,
-        recommendedName: form.name
+        recommendedName: form.name || null,
     })
 
     submitted.value = true

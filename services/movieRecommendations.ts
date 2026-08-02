@@ -1,23 +1,39 @@
 import type { MovieRecommendation } from "~/types/movieRecommendation"
 import type { PaginatedResponse } from "~/types/pagination"
 
-
 interface GetRecommendationsOptions {
   perPage?: number
   page?: number
 }
 
-export const getRecommendations = (options: GetRecommendationsOptions = {}) => {
-  const api = useApi()
-  return api.get<PaginatedResponse<MovieRecommendation>>('/movie-recommendations', { per_page: options.perPage })
+interface CreateRecommendationInput {
+  tmdbId: number
+  title: string
+  posterPath?: string | null
+  releaseDate: string
+  message: string
+  recommendedName?: string | null
 }
 
-export const createRecommendation = (recommendation: Partial<MovieRecommendation>) => {
-  const api = useApi()
-  const body = {
-    tmdbId: recommendation.id,
-    message: recommendation.message,
-    recommenderName: recommendation.recommendedName
-  }
-  return api.post<MovieRecommendation>('/movie-recommendations', body)
+export const getRecommendations = (options: GetRecommendationsOptions = {}) => {
+  return $fetch<PaginatedResponse<MovieRecommendation>>('/api/movie-recommendations', {
+    query: {
+      per_page: options.perPage,
+      page: options.page,
+    },
+  })
+}
+
+export const createRecommendation = (recommendation: CreateRecommendationInput) => {
+  return $fetch<MovieRecommendation>('/api/movie-recommendations', {
+    method: 'POST',
+    body: {
+      tmdbId: recommendation.tmdbId,
+      title: recommendation.title,
+      posterPath: recommendation.posterPath,
+      releaseDate: recommendation.releaseDate,
+      message: recommendation.message,
+      recommendedName: recommendation.recommendedName,
+    },
+  })
 }
