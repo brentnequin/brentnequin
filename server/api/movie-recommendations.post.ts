@@ -2,9 +2,9 @@ import prisma from '../lib/prisma'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { tmdbId, title, posterPath, releaseDate, message, recommendedName } = body
+  const { tmdbId, title, posterPath, releaseDate, description, message, recommendedName } = body
 
-  if (!tmdbId || !title || !releaseDate || !message) {
+  if (!tmdbId || !title || !releaseDate) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Missing required recommendation fields',
@@ -17,19 +17,21 @@ export default defineEventHandler(async (event) => {
       title,
       posterPath,
       releaseDate,
+      description,
     },
     create: {
       tmdbId,
       title,
       posterPath,
       releaseDate,
+      description,
     },
   })
 
   const recommendation = await prisma.movieRecommendation.create({
     data: {
-      message,
-      recommendedName,
+      message: message ?? null,
+      recommendedName: recommendedName ?? null,
       movie: { connect: { id: movie.id } },
     },
     include: { movie: true },

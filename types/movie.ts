@@ -3,4 +3,5 @@ export interface Movie {
   title: string
   posterPath?: string | null
   releaseDate: string
+  description?: string | null
 }

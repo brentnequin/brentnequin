@@ -11,7 +11,8 @@ interface CreateRecommendationInput {
   title: string
   posterPath?: string | null
   releaseDate: string
-  message: string
+  description?: string | null
+  message?: string | null
   recommendedName?: string | null
 }
 
@@ -32,8 +33,9 @@ export const createRecommendation = (recommendation: CreateRecommendationInput) 
       title: recommendation.title,
       posterPath: recommendation.posterPath,
       releaseDate: recommendation.releaseDate,
-      message: recommendation.message,
-      recommendedName: recommendation.recommendedName,
+      description: recommendation.description ?? null,
+      message: recommendation.message ?? null,
+      recommendedName: recommendation.recommendedName ?? null,
     },
   })
 }

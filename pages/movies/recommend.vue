@@ -6,11 +6,20 @@ const search = ref('')
 const results = ref<Movie[]>([])
 const selectedMovie = ref<Movie | null>(null)
 const submitted = ref(false)
+const showDetails = ref(false)
 
 const form = reactive({
   message: '',
   name: ''
 })
+
+function toggleDetails() {
+  showDetails.value = !showDetails.value
+  if (!showDetails.value) {
+    form.message = ''
+    form.name = ''
+  }
+}
 
 async function _searchMovies() {
 
@@ -26,7 +35,8 @@ async function _searchMovies() {
             tmdbId: movie.id,
             title: movie.title,
             posterPath: movie.poster_path,
-            releaseDate: movie.release_date
+            releaseDate: movie.release_date,
+            description: movie.overview,
         }
     });
 }
@@ -39,8 +49,9 @@ async function _submitRecommendation() {
         title: selectedMovie.value.title,
         posterPath: selectedMovie.value.posterPath,
         releaseDate: selectedMovie.value.releaseDate,
-        message: form.message,
-        recommendedName: form.name || null,
+        description: selectedMovie.value.description ?? null,
+        message: showDetails.value ? form.message : undefined,
+        recommendedName: showDetails.value ? form.name || null : null,
     })
 
     submitted.value = true
@@ -67,7 +78,7 @@ function recommendAnother() {
         <h1 class="mb-8 text-4xl font-bold">
           Recommend a Movie
         </h1>
-    
+
         <!-- Search -->
         <form
             class="space-x-4 mb-8"
@@ -102,49 +113,72 @@ function recommendAnother() {
         </div>
 
         <!-- Form -->
-        <div class="flex gap-4 text-left" v-if="selectedMovie && !submitted">
+        <div class="flex flex-col gap-6 text-left md:flex-row md:items-start" v-if="selectedMovie && !submitted">
             <img
                 :src="selectedMovie.posterPath ? `https://image.tmdb.org/t/p/w500${selectedMovie.posterPath}` : '/placeholder.svg'"
                 :alt="selectedMovie.title"
-                class="h-128 object-cover rounded-xl"
+                class="w-full max-h-[70vh] rounded-[32px] object-contain shadow-xl ring-1 ring-slate-200 dark:ring-slate-700 md:w-1/3"
                 loading="lazy"
             />
-            <div class="bg-gray-400 rounded-xl p-4 space-y-4">
-                <h2 class="text-2xl">{{ selectedMovie.title }}</h2>
-                <p class="mt-1 text-gray-500">
-                    {{ selectedMovie.releaseDate?.slice(0, 4) }}
-                </p>
-                <div>
-                    <label class="mb-2 block font-medium">
-                        Why should I watch this?
-                    </label>
-                    <textarea
-                        v-model="form.message"
-                        rows="5"
-                        placeholder="What makes this movie special?"
-                        class="w-full rounded-lg border p-3"
-                    />
+
+            <div class="flex-1 rounded-[32px] bg-white p-8 shadow-xl ring-1 ring-slate-200 dark:bg-slate-950 dark:ring-slate-800">
+                <div class="flex flex-col gap-3">
+                    <div>
+                        <h2 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">{{ selectedMovie.title }}</h2>
+                        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                            {{ selectedMovie.releaseDate?.slice(0, 4) }}
+                        </p>
+                    </div>
+                    <div class="rounded-[24px] bg-slate-50 p-4 text-sm text-slate-700 shadow-sm dark:bg-slate-900 dark:text-slate-300">
+                        <p>
+                            {{ selectedMovie.description || 'A great choice — add a short note if you want to explain why.' }}
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <label class="mb-2 block font-medium">
-                        Your name (optional)
-                    </label>
-    
-                    <input
-                        v-model="form.name"
-                        placeholder="Your name (optional)"
-                        class="w-full rounded-lg border p-3"
-                    />
-                </div>
-                <div class="space-x-2">
+
+                <div class="mt-8 space-y-6">
                     <button
-                        class="rounded-lg bg-gray-800 px-6 py-3 text-white"
+                        type="button"
+                        class="inline-flex items-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-medium text-slate-900 shadow-sm transition hover:border-slate-400 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900"
+                        @click="toggleDetails"
+                    >
+                        {{ showDetails ? 'Hide optional details' : 'Add optional details' }}
+                    </button>
+
+                    <div v-if="showDetails" class="space-y-5 rounded-[24px] border border-slate-200 bg-slate-50 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                        <div>
+                            <label class="mb-2 block text-sm font-semibold text-slate-900 dark:text-slate-100">
+                                Why should I watch this?
+                            </label>
+                            <textarea
+                                v-model="form.message"
+                                rows="5"
+                                placeholder="What makes this movie special?"
+                                class="w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-slate-500 dark:focus:ring-slate-800"
+                            />
+                        </div>
+                        <div>
+                            <label class="mb-2 block text-sm font-semibold text-slate-900 dark:text-slate-100">
+                                Your name (optional)
+                            </label>
+                            <input
+                                v-model="form.name"
+                                placeholder="Your name (optional)"
+                                class="w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:focus:border-slate-500 dark:focus:ring-slate-800"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 grid gap-3 sm:flex sm:items-center">
+                    <button
+                        class="w-full rounded-3xl bg-slate-900 px-6 py-3 text-base font-semibold text-white transition hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-slate-200"
                         @click="_submitRecommendation"
                     >
                         Submit Recommendation
                     </button>
                     <button
-                        class="rounded-lg bg-gray-800 px-6 py-3 text-white"
+                        class="w-full rounded-3xl border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-900"
                         @click="selectedMovie = null"
                     >
                         Choose Another Movie

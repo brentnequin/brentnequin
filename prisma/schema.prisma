@@ -18,12 +18,13 @@ model Movie {
   title       String
   posterPath  String?
   releaseDate String?
+  description String?
   recommendations MovieRecommendation[]
 }
 
 model MovieRecommendation {
   id              Int      @id @default(autoincrement())
-  message         String
+  message         String?
   recommendedName String?
   createdAt       DateTime @default(now())
   movie           Movie    @relation(fields: [movieId], references: [id])
