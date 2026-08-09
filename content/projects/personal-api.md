@@ -2,8 +2,8 @@
 title: Personal API
 description: Flask API powering my personal applications.
 status: Active
-featured: true
-order: 2
+draft: true
+order: 3
 
 technologies:
   - Flask

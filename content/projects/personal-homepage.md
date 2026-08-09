@@ -5,7 +5,7 @@ status: Active
 featured: true
 order: 1
 
-github: https://github.com/brentnequin/personal-homepage
+url: https://brentnequin.com
 
 technologies:
   - Nuxt

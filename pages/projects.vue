@@ -1,7 +1,8 @@
 <script setup lang="ts">
-const { data: projects } = await useAsyncData('projects', () => queryCollection('projects')
-    // .order('order', 'ASC')
-    .all()
+const { data: projectsData } = await useAsyncData('projects', () => queryCollection('projects').all())
+
+const projects = computed(() =>
+  (projectsData.value ?? []).filter((project: Record<string, unknown>) => project.draft !== true)
 )
 </script>
 
@@ -33,6 +34,17 @@ const { data: projects } = await useAsyncData('projects', () => queryCollection(
           >
             {{ tech }}
           </span>
+        </div>
+
+        <div v-if="project.url" class="mt-6">
+          <a
+            :href="project.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+          >
+            View Project
+          </a>
         </div>
       </div>
     </div>
