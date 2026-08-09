@@ -72,35 +72,37 @@ function recommendAnother() {
 </script>
 
 <template>
+  <div class="w-full px-6 py-16 text-center">
+    <div class="mx-auto max-w-2xl">
+      <p class="text-sm font-medium uppercase tracking-[0.3em] text-[#6b7280] dark:text-[#9ea8b5]">
+        Movie picker
+      </p>
+      <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[#23324a] dark:text-[#f4f1ea]">
+        Recommend a Movie
+      </h1>
+    </div>
 
-    <div class="mx-auto py-16 text-center">
+    <form
+      class="mx-auto mt-8 flex w-full max-w-6xl flex-col gap-3 rounded-3xl border border-[#d8d1c3] bg-[#f8f5ee]/80 p-6 shadow-[0_18px_45px_-25px_rgba(35,50,74,0.35)] backdrop-blur-sm sm:flex-row sm:items-center dark:border-[#263241] dark:bg-[#111827]/70"
+      @submit.prevent="_searchMovies"
+      v-if="!selectedMovie"
+    >
+      <input
+        v-model="search"
+        placeholder="Search for a movie..."
+        class="flex-1 rounded-full border border-[#b7b0a0] bg-white/70 px-4 py-3 text-sm text-[#23324a] outline-none transition focus:border-[#23324a] dark:border-[#4b5563] dark:bg-[#1f2937] dark:text-[#f4f1ea]"
+      />
 
-        <h1 class="mb-8 text-4xl font-bold">
-          Recommend a Movie
-        </h1>
-
-        <!-- Search -->
-        <form
-            class="space-x-4 mb-8"
-            @submit.prevent="_searchMovies"
-            v-if="!selectedMovie"
-          >
-            <input
-              v-model="search"
-              placeholder="Search for a movie..."
-              class="flex-1 rounded-lg border p-3"
-            />
-    
-            <button
-              class="rounded-lg border border-gray-700 px-5 py-3 hover:bg-gray-900"
-            >
-              Search
-            </button>
-        </form>
+      <button
+        class="rounded-full bg-[#23324a] px-5 py-3 text-sm font-medium text-[#f4f1ea] transition hover:bg-[#304561] dark:bg-[#d9cdb8] dark:text-[#1f2a37] dark:hover:bg-[#e8dccb]"
+      >
+        Search
+      </button>
+    </form>
 
         <!-- Results -->
         <div
-            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8"
+            class="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
             v-if="!selectedMovie && results"
         >
             <MovieCard
