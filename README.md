@@ -1,75 +1,42 @@
-# Nuxt Minimal Starter
+# Brent Nequin
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+**Senior Software Engineer · Backend & Full-Stack Development**
 
-## Setup
+I'm a software engineer focused on building reliable backend systems, APIs, and full-stack applications. I enjoy taking projects from architecture and planning through implementation, testing, and delivery.
 
-Make sure to install dependencies:
+### 🛠️ Technologies
 
-```bash
-# npm
-npm install
+**Languages:** Python · TypeScript · JavaScript
+**Backend:** Flask · REST APIs · Microservices
+**Frontend:** Vue · Nuxt · React
+**Databases:** PostgreSQL
+**Cloud & Infrastructure:** AWS · Docker · CI/CD
+**Development:** Git · GitHub · GitHub Copilot
 
-# pnpm
-pnpm install
+### 🚀 Projects
 
-# yarn
-yarn install
+#### 🎮 Steam Backlogger
 
-# bun
-bun install
-```
+A web application for managing and making progress through a large Steam game backlog. The project integrates with the Steam ecosystem to organize a game library, track progress and playtime, and provide a more useful way to decide what to play next.
 
-## Development Server
+**Tech:** Nuxt 4 · Django · Django REST Framework · PostgreSQL · Steam Web API
 
-Start the development server on `http://localhost:3000`:
+[View project →](https://github.com/brentnequin)
 
-```bash
-# npm
-npm run dev
+#### 🏠 Personal Website
 
-# pnpm
-pnpm dev
+My personal website and a place to experiment with web applications, APIs, and other software projects.
 
-# yarn
-yarn dev
+[brentnequin.com](https://brentnequin.com)
 
-# bun
-bun run dev
-```
+### 💼 Professional Experience
 
-## Production
+I currently work as a Senior Software Engineer building software for financial services. My work includes backend services, APIs, internal platforms, and full-stack applications.
 
-Build the application for production:
+Previously, I worked at Epsilon building cloud-based applications and distributed services.
 
-```bash
-# npm
-npm run build
+### 📫 Connect
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+* **Website:** [brentnequin.com](https://brentnequin.com)
+* **GitHub:** [github.com/brentnequin](https://github.com/brentnequin)
+* **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/brentnequin/)
