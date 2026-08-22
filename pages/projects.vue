@@ -9,9 +9,6 @@ const projects = computed(() =>
 <template>
   <div class="mx-auto max-w-6xl px-6 py-16">
     <div class="mb-10">
-      <p class="text-sm font-medium uppercase tracking-[0.3em] text-[#6b7280] dark:text-[#9ea8b5]">
-        Selected work
-      </p>
       <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[#23324a] dark:text-[#f4f1ea]">
         Projects
       </h1>

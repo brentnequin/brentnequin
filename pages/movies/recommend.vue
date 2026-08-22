@@ -80,6 +80,9 @@ function recommendAnother() {
       <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[#23324a] dark:text-[#f4f1ea]">
         Recommend a Movie
       </h1>
+            <div class="mt-4">
+                <NuxtLink to="/movies" class="text-sm font-medium text-[#23324a] dark:text-[#f4f1ea] hover:underline">See recommended movies →</NuxtLink>
+            </div>
     </div>
 
     <form
