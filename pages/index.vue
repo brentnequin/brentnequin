@@ -1,44 +1,96 @@
 <script setup lang="ts">
+const { data: projectsData } = await useAsyncData('home-featured-projects', () => queryCollection('projects').all())
+
+const featuredProjects = computed(() =>
+  (projectsData.value ?? [])
+    .filter(project => project.featured === true && project.draft !== true)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    .slice(0, 2)
+)
+
 useSeoMeta({
   title: 'Brent Nequin',
-  description: 'Senior Software Engineer building APIs, web applications, and personal projects.',
+  description: 'Thoughtful web projects, useful tools, and movie recommendations by Brent Nequin.',
 })
-
-// definePageMeta({
-//   layout: 'centered'
-// })
 </script>
 
 <template>
-  <section class="flex min-h-[calc(100vh-200px)] flex-col items-center justify-center px-6 py-16">
-    <div class="w-full max-w-3xl rounded-3xl border border-[#d8d1c3] bg-[#f8f5ee]/80 p-8 shadow-[0_20px_60px_-30px_rgba(35,50,74,0.35)] backdrop-blur-sm dark:border-[#263241] dark:bg-[#111827]/70">
-      <p class="text-sm font-medium uppercase tracking-[0.3em] text-[#6b7280] dark:text-[#9ea8b5]">
-        Senior Software Engineer
-      </p>
-
-      <h1 class="mt-4 text-4xl font-semibold tracking-tight text-[#23324a] sm:text-5xl dark:text-[#f4f1ea]">
-        Brent Nequin
-      </h1>
-
-      <p class="mt-4 text-lg text-[#5d6774] dark:text-[#c1c7d0]">
-        Building calm, reliable software for the web with thoughtful APIs, modern tooling, and a focus on practical impact.
-      </p>
-
-      <div class="mt-8 flex flex-wrap gap-3">
-        <NuxtLink
-          to="/projects"
-          class="rounded-full bg-[#23324a] px-5 py-3 text-sm font-medium text-[#f4f1ea] transition hover:bg-[#304561] dark:bg-[#d9cdb8] dark:text-[#1f2a37] dark:hover:bg-[#e8dccb]"
-        >
-          View Projects
-        </NuxtLink>
-
-        <NuxtLink
-          to="/movies/recommend"
-          class="rounded-full border border-[#b7b0a0] px-5 py-3 text-sm font-medium text-[#23324a] transition hover:bg-[#ece7dc] dark:border-[#4b5563] dark:text-[#f4f1ea] dark:hover:bg-[#1f2937]"
-        >
-          Recommend a Movie
-        </NuxtLink>
+  <div class="mx-auto max-w-5xl space-y-20 py-8 sm:py-12">
+    <section class="grid gap-8 border-b border-black/10 pb-16 sm:grid-cols-[1fr_auto] sm:items-end sm:pb-20">
+      <div class="max-w-2xl">
+        <p class="site-eyebrow mb-5">A small corner of the internet</p>
+        <h1 class="text-5xl font-semibold leading-[1.05] tracking-tight text-black sm:text-6xl">
+          Useful things,<br class="hidden sm:block"> made with care.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-8 text-black/70">
+          I build thoughtful web projects, explore ideas, and collect good movie recommendations along the way.
+        </p>
       </div>
-    </div>
-  </section>
+      <NuxtLink
+        to="/projects"
+        class="site-button"
+      >
+        Explore my projects <span aria-hidden="true">↗</span>
+      </NuxtLink>
+    </section>
+
+    <section aria-labelledby="featured-heading">
+      <div class="mb-6 flex items-end justify-between gap-4">
+        <div>
+          <p class="site-eyebrow">Selected work</p>
+          <h2 id="featured-heading" class="mt-2 text-3xl font-semibold tracking-tight text-black">A few things I’ve made</h2>
+        </div>
+        <NuxtLink to="/projects" class="hidden text-sm text-black/65 transition hover:text-black sm:inline">All projects <span aria-hidden="true">→</span></NuxtLink>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <article
+          v-for="(project, index) in featuredProjects"
+          :key="project.path"
+          class="site-card flex min-h-64 flex-col p-6 sm:p-7"
+        >
+          <div class="flex items-center justify-between">
+            <span class="site-eyebrow text-sm tabular-nums">0{{ index + 1 }}</span>
+            <span class="site-tag px-3 py-1 text-xs font-medium">{{ project.status }}</span>
+          </div>
+          <h3 class="mt-8 text-2xl font-semibold tracking-tight text-black">{{ project.title }}</h3>
+          <p class="mt-2 text-sm leading-6 text-black/70">{{ project.description }}</p>
+          <div class="mt-auto flex flex-wrap gap-2 pt-6">
+            <span
+              v-for="technology in project.technologies"
+              :key="technology"
+              class="site-tag px-2.5 py-1 text-xs"
+            >
+              {{ technology }}
+            </span>
+          </div>
+          <a
+            v-if="project.url"
+            :href="project.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="site-button mt-6"
+          >
+            Visit project <span aria-hidden="true">↗</span>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section class="site-card site-callout flex flex-col gap-6 p-7 sm:flex-row sm:items-center sm:justify-between sm:p-9" aria-labelledby="movie-heading">
+      <div class="max-w-xl">
+        <p class="site-eyebrow">Trade a good watch</p>
+        <h2 id="movie-heading" class="mt-2 text-3xl font-semibold tracking-tight text-black">What should I watch next?</h2>
+        <p class="mt-3 leading-7 text-black/70">
+          Send me a movie recommendation. Tell me what makes it worth watching, and I’ll add it to my list.
+        </p>
+      </div>
+      <NuxtLink
+        to="/movies/recommend"
+        class="site-button shrink-0"
+      >
+        Recommend a movie <span aria-hidden="true">→</span>
+      </NuxtLink>
+    </section>
+  </div>
 </template>
