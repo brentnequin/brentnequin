@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/content',
   ],
-  css: ['./assets/css/main.css'],
+  css: ['~/assets/css/main.css'],
   runtimeConfig: {
     tmdbAccessToken: process.env.NUXT_TMDB_ACCESS_TOKEN,
     public: {
