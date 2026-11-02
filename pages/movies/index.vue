@@ -32,7 +32,7 @@ const { data, pending, error } = await useAsyncData(
     <div v-else>
       <h2 class="mb-4 text-2xl font-semibold text-black">Recently Recommended</h2>
 
-      <div v-if="data?.items?.length" class="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div v-if="data?.items?.length" class="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <MovieCard
           v-for="rec in data?.items"
           :key="rec.id"
