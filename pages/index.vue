@@ -20,10 +20,10 @@ useSeoMeta({
       <div class="max-w-2xl">
         <p class="site-eyebrow mb-5">A small corner of the internet</p>
         <h1 class="text-5xl font-semibold leading-[1.05] tracking-tight text-black sm:text-6xl">
-          Useful things,<br class="hidden sm:block"> made with care.
+          Hi, I’m Brent.
         </h1>
         <p class="mt-6 max-w-xl text-lg leading-8 text-black/70">
-          I build thoughtful web projects, explore ideas, and collect good movie recommendations along the way.
+          This is where I share what I’m making, what I’m watching, and whatever I’m curious about lately.
         </p>
       </div>
       <NuxtLink
