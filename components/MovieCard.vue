@@ -1,20 +1,48 @@
 <script setup lang="ts">
 import type { Movie } from '~/types/movie'
 
-defineProps<{
+const props = defineProps<{
   movie: Movie
 }>()
+
+const posterLoaded = ref(false)
+
+const posterUrl = computed(() =>
+  props.movie.posterPath
+    ? `https://image.tmdb.org/t/p/w500${props.movie.posterPath}`
+    : '/placeholder.svg'
+)
+
+function handlePosterError(event: Event) {
+  const image = event.target as HTMLImageElement
+
+  if (image.dataset.fallback !== 'true') {
+    image.dataset.fallback = 'true'
+    image.src = '/placeholder.svg'
+    return
+  }
+
+  posterLoaded.value = true
+}
 </script>
 
 <template>
   <article class="site-card group w-full overflow-hidden text-left transition-transform duration-200 hover:-translate-y-1">
     <!-- Poster -->
-    <div class="overflow-hidden bg-[#e4efdf]">
+    <div class="relative h-72 overflow-hidden bg-[#e4efdf]">
+      <div
+        v-if="!posterLoaded"
+        class="absolute inset-0 animate-pulse bg-[#e4efdf]"
+        aria-hidden="true"
+      ></div>
       <img
-        :src="movie.posterPath ? `https://image.tmdb.org/t/p/w500${movie.posterPath}` : '/placeholder.svg'"
+        :src="posterUrl"
         :alt="movie.title"
-        class="h-72 w-full object-cover transition duration-300 group-hover:scale-105"
+        :class="['absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105', posterLoaded ? 'opacity-100' : 'opacity-0']"
         loading="lazy"
+        decoding="async"
+        @load="posterLoaded = true"
+        @error="handlePosterError"
       />
     </div>
 
