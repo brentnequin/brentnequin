@@ -4,7 +4,7 @@
         site-shell flex min-h-screen flex-col">
     <AppHeader />
 
-    <main class="flex-1 mx-auto max-w-5xl px-6 py-16">
+    <main class="site-container flex-1 py-16">
       <slot />
     </main>
 

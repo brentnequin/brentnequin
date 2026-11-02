@@ -19,7 +19,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="mx-auto max-w-6xl px-6 py-16">
+  <div class="w-full py-16">
     <div class="mb-8">
       <p class="site-eyebrow">
         Movie picks
