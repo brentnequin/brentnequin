@@ -18,14 +18,11 @@ async function holdRecommendations(page: Page) {
       contentType: 'application/json',
       body: JSON.stringify({
         page: 1,
-        per_page: 5,
+        per_page: 8,
         total: 1,
         items: [
           {
-            id: 101,
-            createdAt: '2026-11-02T00:00:00.000Z',
-            recommendedName: null,
-            message: '',
+            recommendationCount: 2,
             movie: {
               tmdbId: 123,
               title: 'Slow test recommendation',
@@ -55,6 +52,7 @@ test('shows poster skeletons while recommendations are loading', async ({ page }
   releaseResponse()
 
   await expect(page.getByRole('heading', { name: 'Slow test recommendation' })).toBeVisible()
+  await expect(page.getByText('2 recommendations')).toBeVisible()
   await expect(skeletons).toHaveCount(0)
 })
 
@@ -73,5 +71,54 @@ test('shows poster skeletons when navigating from the recommendation form', asyn
   releaseResponse()
 
   await expect(page.getByRole('heading', { name: 'Slow test recommendation' })).toBeVisible()
+  await expect(page.getByText('2 recommendations')).toBeVisible()
   await expect(skeletons).toHaveCount(0)
+})
+
+test('loads more unique recommendations and hides the button when all are shown', async ({ page }) => {
+  const firstPageItems = Array.from({ length: 8 }, (_, index) => ({
+    recommendationCount: 1,
+    movie: {
+      tmdbId: index + 1,
+      title: `Recommendation ${index + 1}`,
+      posterPath: null,
+      releaseDate: '2024-01-01',
+      description: null,
+    },
+  }))
+  const secondPageItems = Array.from({ length: 8 }, (_, index) => ({
+    recommendationCount: 1,
+    movie: {
+      tmdbId: index + 9,
+      title: `Recommendation ${index + 9}`,
+      posterPath: null,
+      releaseDate: '2024-01-01',
+      description: null,
+    },
+  }))
+
+  await page.route('**/api/movie-recommendations**', async (route) => {
+    const requestUrl = new URL(route.request().url())
+    const pageNumber = Number(requestUrl.searchParams.get('page') ?? 1)
+    expect(requestUrl.searchParams.get('per_page')).toBe('8')
+
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        page: pageNumber,
+        per_page: 8,
+        total: 16,
+        items: pageNumber === 1 ? firstPageItems : secondPageItems,
+      }),
+    })
+  })
+
+  await page.goto('/movies')
+  await expect(page.getByRole('heading', { name: 'Recommendation 8' })).toBeVisible()
+  await expect(page.locator('article h3')).toHaveCount(8)
+  await page.getByRole('button', { name: 'Show more movies' }).click()
+
+  await expect(page.getByRole('heading', { name: 'Recommendation 16' })).toBeVisible()
+  await expect(page.locator('article h3')).toHaveCount(16)
+  await expect(page.getByRole('button', { name: 'Show more movies' })).toHaveCount(0)
 })

@@ -3,8 +3,9 @@
     <nav class="site-container flex items-center justify-between py-4">
       <NuxtLink
         to="/"
-        class="text-xl font-normal text-black"
+        class="flex items-center gap-2 text-xl font-normal text-black"
       >
+        <img src="/quarter-rest.svg" alt="" aria-hidden="true" class="h-5 w-5 shrink-0" />
         Brent Nequin
       </NuxtLink>
 

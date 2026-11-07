@@ -1,4 +1,4 @@
-import type { MovieRecommendation } from "~/types/movieRecommendation"
+import type { MovieRecommendation, PublicMovieRecommendationGroup } from "~/types/movieRecommendation"
 import type { PaginatedResponse } from "~/types/pagination"
 
 interface GetRecommendationsOptions {
@@ -17,7 +17,7 @@ interface CreateRecommendationInput {
 }
 
 export const getRecommendations = (options: GetRecommendationsOptions = {}) => {
-  return $fetch<PaginatedResponse<MovieRecommendation>>('/api/movie-recommendations', {
+  return $fetch<PaginatedResponse<PublicMovieRecommendationGroup>>('/api/movie-recommendations', {
     query: {
       per_page: options.perPage,
       page: options.page,

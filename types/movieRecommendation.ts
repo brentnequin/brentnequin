@@ -7,3 +7,8 @@ export interface MovieRecommendation {
   movie: Movie
   message: string
 }
+
+export interface PublicMovieRecommendationGroup {
+  movie: Movie
+  recommendationCount: number
+}

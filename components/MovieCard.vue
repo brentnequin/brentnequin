@@ -3,6 +3,7 @@ import type { Movie } from '~/types/movie'
 
 const props = defineProps<{
   movie: Movie
+  recommendationCount?: number
 }>()
 
 const posterLoaded = ref(false)
@@ -54,6 +55,10 @@ function handlePosterError(event: Event) {
 
       <p class="text-xs text-black/60">
         {{ movie.releaseDate?.slice(0, 4)  }}
+      </p>
+
+      <p v-if="recommendationCount" class="site-tag inline-block px-2 py-1 text-xs">
+        {{ recommendationCount }} recommendation{{ recommendationCount === 1 ? '' : 's' }}
       </p>
     </div>
   </article>

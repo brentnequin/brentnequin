@@ -4,6 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  devServer: {
+    host: 'localhost',
+  },
   modules: [
     '@nuxtjs/color-mode',
     '@nuxt/content',
@@ -22,6 +25,11 @@ export default defineNuxtConfig({
     ],
   },
   app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/quarter-rest.svg' },
+      ],
+    },
     pageTransition: {
       name: 'page',
       mode: 'out-in'

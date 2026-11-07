@@ -1,13 +1,22 @@
 <script setup lang="ts">
 import { getRecommendations } from '~/services/movieRecommendations';
 
+const perPage = 8
 const data = ref<Awaited<ReturnType<typeof getRecommendations>>>()
 const pending = ref(true)
+const loadingMore = ref(false)
 const error = ref<Error | null>(null)
+const loadMoreError = ref<Error | null>(null)
+
+const hasMore = computed(() =>
+  data.value !== undefined
+  && data.value.total !== undefined
+  && data.value.items.length < data.value.total
+)
 
 onMounted(async () => {
   try {
-    data.value = await getRecommendations({ perPage: 5 })
+    data.value = await getRecommendations({ perPage })
   } catch (requestError) {
     error.value = requestError instanceof Error
       ? requestError
@@ -16,6 +25,30 @@ onMounted(async () => {
     pending.value = false
   }
 })
+
+async function loadMore() {
+  if (!data.value || loadingMore.value || !hasMore.value) return
+
+  loadingMore.value = true
+  loadMoreError.value = null
+
+  try {
+    const nextPage = await getRecommendations({
+      perPage,
+      page: data.value.page + 1,
+    })
+    data.value = {
+      ...nextPage,
+      items: [...data.value.items, ...nextPage.items],
+    }
+  } catch (requestError) {
+    loadMoreError.value = requestError instanceof Error
+      ? requestError
+      : new Error('Failed to load more recommendations')
+  } finally {
+    loadingMore.value = false
+  }
+}
 </script>
 
 <template>
@@ -35,7 +68,7 @@ onMounted(async () => {
     <section aria-labelledby="recent-recommendations-heading" :aria-busy="pending">
       <h2 id="recent-recommendations-heading" class="mb-4 text-2xl font-semibold text-black">Recently Recommended</h2>
 
-      <div v-if="pending" class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" role="status" aria-label="Loading movie recommendations">
+      <div v-if="pending" class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4" role="status" aria-label="Loading movie recommendations">
         <article v-for="skeleton in 8" :key="skeleton" class="site-card animate-pulse overflow-hidden" aria-hidden="true">
           <div class="h-72 bg-[#e4efdf]"></div>
           <div class="space-y-3 p-4">
@@ -50,12 +83,29 @@ onMounted(async () => {
         Failed to load recommendations.
       </div>
 
-      <div v-else-if="data?.items?.length" class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <MovieCard
-          v-for="rec in data.items"
-          :key="rec.id"
-          :movie="rec.movie"
-        />
+      <div v-else-if="data?.items?.length">
+        <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <MovieCard
+            v-for="rec in data.items"
+            :key="rec.movie.tmdbId"
+            :movie="rec.movie"
+            :recommendation-count="rec.recommendationCount"
+          />
+        </div>
+
+        <div v-if="hasMore || loadMoreError" class="mt-8 flex flex-col items-center gap-3">
+          <p v-if="loadMoreError" class="text-sm text-red-700" role="alert">
+            Failed to load more recommendations.
+          </p>
+          <button
+            type="button"
+            class="site-button"
+            :disabled="loadingMore"
+            @click="loadMore"
+          >
+            {{ loadingMore ? 'Loading...' : loadMoreError ? 'Try again' : 'Show more movies' }}
+          </button>
+        </div>
       </div>
 
       <div v-else class="site-card mt-6 p-8 text-black/70">
