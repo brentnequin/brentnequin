@@ -38,7 +38,7 @@ function handlePosterError(event: Event) {
 <template>
   <article class="site-card group w-full overflow-hidden text-left transition-transform duration-200 hover:-translate-y-1">
     <!-- Poster -->
-    <div class="relative h-72 overflow-hidden bg-[#e4efdf]">
+    <div class="relative aspect-[2/3] overflow-hidden bg-[#e4efdf]">
       <div
         v-if="!posterLoaded"
         class="absolute inset-0 animate-pulse bg-[#e4efdf]"
@@ -53,6 +53,13 @@ function handlePosterError(event: Event) {
         @load="posterLoaded = true"
         @error="handlePosterError"
       />
+      <p
+        v-if="isWatched !== undefined"
+        class="site-tag absolute left-3 top-3 px-2 py-1 text-xs shadow-sm"
+        :aria-label="isWatched ? 'Watched' : 'Not watched yet'"
+      >
+        {{ isWatched ? 'Watched' : 'Not watched yet' }}
+      </p>
     </div>
 
     <!-- Text -->
@@ -63,14 +70,6 @@ function handlePosterError(event: Event) {
 
       <p class="text-xs text-black/60">
         {{ movie.releaseDate?.slice(0, 4)  }}
-      </p>
-
-      <p
-        v-if="isWatched !== undefined"
-        class="site-tag inline-block px-2 py-1 text-xs"
-        :aria-label="isWatched ? 'Watched' : 'Not watched yet'"
-      >
-        {{ isWatched ? 'Watched' : 'Not watched yet' }}
       </p>
 
       <button
