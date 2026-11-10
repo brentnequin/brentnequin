@@ -90,6 +90,7 @@ async function loadMore() {
             :key="rec.movie.tmdbId"
             :movie="rec.movie"
             :recommendation-count="rec.recommendationCount"
+            :is-watched="rec.isWatched"
           />
         </div>
 

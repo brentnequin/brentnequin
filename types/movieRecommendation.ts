@@ -10,5 +10,6 @@ export interface MovieRecommendation {
 
 export interface PublicMovieRecommendationGroup {
   movie: Movie
+  isWatched: boolean
   recommendationCount: number
 }

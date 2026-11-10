@@ -26,14 +26,21 @@ export default defineEventHandler(async (event) => {
 
   const movies = await prisma.movie.findMany({
     where: { id: { in: groups.map(group => group.movieId) } },
+    include: { viewings: { select: { id: true } } },
   })
   const moviesById = new Map(movies.map(movie => [movie.id, movie]))
   const items = groups.flatMap((group) => {
     const movie = moviesById.get(group.movieId)
 
-    return movie
-      ? [{ movie, recommendationCount: group._count._all }]
-      : []
+    if (!movie) return []
+
+    const { viewings, ...movieDetails } = movie
+
+    return [{
+      movie: movieDetails,
+      isWatched: viewings.length > 0,
+      recommendationCount: group._count._all,
+    }]
   })
 
   return {

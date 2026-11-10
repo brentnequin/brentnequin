@@ -13,13 +13,14 @@ datasource db {
 }
 
 model Movie {
-  id          Int                   @id @default(autoincrement())
-  tmdbId      Int                   @unique
-  title       String
-  posterPath  String?
-  releaseDate String?
-  description String?
+  id              Int                   @id @default(autoincrement())
+  tmdbId          Int                   @unique
+  title           String
+  posterPath      String?
+  releaseDate     String?
+  description     String?
   recommendations MovieRecommendation[]
+  viewings        MovieViewing[]
 }
 
 model MovieRecommendation {
@@ -29,4 +30,12 @@ model MovieRecommendation {
   createdAt       DateTime @default(now())
   movie           Movie    @relation(fields: [movieId], references: [id])
   movieId         Int
+}
+
+model MovieViewing {
+  id        Int      @id @default(autoincrement())
+  watchedAt DateTime @default(now())
+  reaction  String?
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  movieId   Int
 }
