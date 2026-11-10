@@ -10,8 +10,10 @@ export default defineEventHandler(async (event) => {
   const [groups, totalRows] = await Promise.all([
     prisma.movieRecommendation.groupBy({
       by: ['movieId'],
+      _count: { _all: true },
       _max: { createdAt: true },
       orderBy: [
+        { _count: { movieId: 'desc' } },
         { _max: { createdAt: 'desc' } },
         { movieId: 'asc' },
       ],
