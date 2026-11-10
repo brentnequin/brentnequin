@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getRecommendations } from '~/services/movieRecommendations';
+import { addMovieVote, getRecommendations, removeMovieVote } from '~/services/movieRecommendations';
 
 const perPage = 8
 const data = ref<Awaited<ReturnType<typeof getRecommendations>>>()
@@ -7,6 +7,8 @@ const pending = ref(true)
 const loadingMore = ref(false)
 const error = ref<Error | null>(null)
 const loadMoreError = ref<Error | null>(null)
+const votingMovieIds = ref(new Set<number>())
+const voteErrors = ref(new Map<number, string>())
 
 const hasMore = computed(() =>
   data.value !== undefined
@@ -49,6 +51,32 @@ async function loadMore() {
     loadingMore.value = false
   }
 }
+
+async function toggleVote(recommendation: NonNullable<typeof data.value>['items'][number]) {
+  const tmdbId = recommendation.movie.tmdbId
+  if (votingMovieIds.value.has(tmdbId)) return
+
+  votingMovieIds.value = new Set(votingMovieIds.value).add(tmdbId)
+  const nextErrors = new Map(voteErrors.value)
+  nextErrors.delete(tmdbId)
+  voteErrors.value = nextErrors
+
+  try {
+    const result = recommendation.hasVoted
+      ? await removeMovieVote(tmdbId)
+      : await addMovieVote(tmdbId)
+    recommendation.voteCount = result.voteCount
+    recommendation.hasVoted = result.hasVoted
+  } catch {
+    const errors = new Map(voteErrors.value)
+    errors.set(tmdbId, 'Could not save your vote. Please try again.')
+    voteErrors.value = errors
+  } finally {
+    const voting = new Set(votingMovieIds.value)
+    voting.delete(tmdbId)
+    votingMovieIds.value = voting
+  }
+}
 </script>
 
 <template>
@@ -89,8 +117,12 @@ async function loadMore() {
             v-for="rec in data.items"
             :key="rec.movie.tmdbId"
             :movie="rec.movie"
-            :recommendation-count="rec.recommendationCount"
             :is-watched="rec.isWatched"
+            :vote-count="rec.voteCount"
+            :has-voted="rec.hasVoted"
+            :voting="votingMovieIds.has(rec.movie.tmdbId)"
+            :vote-error="voteErrors.get(rec.movie.tmdbId)"
+            @vote="toggleVote(rec)"
           />
         </div>
 

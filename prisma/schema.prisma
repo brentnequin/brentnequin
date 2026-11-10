@@ -21,6 +21,7 @@ model Movie {
   description     String?
   recommendations MovieRecommendation[]
   viewings        MovieViewing[]
+  votes           MovieVote[]
 }
 
 model MovieRecommendation {
@@ -38,4 +39,13 @@ model MovieViewing {
   reaction  String?
   movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
   movieId   Int
+}
+
+model MovieVote {
+  movieId     Int
+  voterIdHash String
+  createdAt   DateTime @default(now())
+  movie       Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@id([movieId, voterIdHash])
 }

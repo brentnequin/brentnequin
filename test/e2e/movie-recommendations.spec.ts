@@ -22,8 +22,9 @@ async function holdRecommendations(page: Page) {
         total: 1,
         items: [
           {
-            recommendationCount: 2,
             isWatched: false,
+            voteCount: 0,
+            hasVoted: false,
             movie: {
               tmdbId: 123,
               title: 'Slow test recommendation',
@@ -53,8 +54,8 @@ test('shows poster skeletons while recommendations are loading', async ({ page }
   releaseResponse()
 
   await expect(page.getByRole('heading', { name: 'Slow test recommendation' })).toBeVisible()
-  await expect(page.getByText('2 recommendations')).toBeVisible()
   await expect(page.getByText('Not watched yet')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Vote (0)' })).toBeVisible()
   await expect(skeletons).toHaveCount(0)
 })
 
@@ -73,14 +74,15 @@ test('shows poster skeletons when navigating from the recommendation form', asyn
   releaseResponse()
 
   await expect(page.getByRole('heading', { name: 'Slow test recommendation' })).toBeVisible()
-  await expect(page.getByText('2 recommendations')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Vote (0)' })).toBeVisible()
   await expect(skeletons).toHaveCount(0)
 })
 
 test('loads more unique recommendations and hides the button when all are shown', async ({ page }) => {
   const firstPageItems = Array.from({ length: 8 }, (_, index) => ({
-    recommendationCount: 1,
     isWatched: index === 0,
+    voteCount: index === 0 ? 2 : 0,
+    hasVoted: false,
     movie: {
       tmdbId: index + 1,
       title: `Recommendation ${index + 1}`,
@@ -90,8 +92,9 @@ test('loads more unique recommendations and hides the button when all are shown'
     },
   }))
   const secondPageItems = Array.from({ length: 8 }, (_, index) => ({
-    recommendationCount: 1,
     isWatched: index === 0,
+    voteCount: index === 0 ? 2 : 0,
+    hasVoted: false,
     movie: {
       tmdbId: index + 9,
       title: `Recommendation ${index + 9}`,
@@ -122,11 +125,63 @@ test('loads more unique recommendations and hides the button when all are shown'
   await expect(page.locator('article h3')).toHaveCount(8)
   await expect(page.getByText('Watched', { exact: true })).toHaveCount(1)
   await expect(page.getByText('Not watched yet', { exact: true })).toHaveCount(7)
+  await expect(page.getByRole('button', { name: 'Vote (2)' })).toHaveCount(1)
   await page.getByRole('button', { name: 'Show more movies' }).click()
 
   await expect(page.getByRole('heading', { name: 'Recommendation 16' })).toBeVisible()
   await expect(page.locator('article h3')).toHaveCount(16)
   await expect(page.getByText('Watched', { exact: true })).toHaveCount(2)
   await expect(page.getByText('Not watched yet', { exact: true })).toHaveCount(14)
+  await expect(page.getByRole('button', { name: 'Vote (2)' })).toHaveCount(2)
   await expect(page.getByRole('button', { name: 'Show more movies' })).toHaveCount(0)
+})
+
+test('allows a browser to vote for and remove a movie vote', async ({ page }) => {
+  let voteCount = 0
+  let hasVoted = false
+
+  await page.route('**/api/movie-recommendations**', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        page: 1,
+        per_page: 8,
+        total: 1,
+        items: [{
+          isWatched: false,
+          voteCount,
+          hasVoted,
+          movie: {
+            tmdbId: 321,
+            title: 'Vote test movie',
+            posterPath: null,
+            releaseDate: '2024-01-01',
+            description: null,
+          },
+        }],
+      }),
+    })
+  })
+
+  await page.route('**/api/movies/321/vote', async (route) => {
+    if (route.request().method() === 'POST' && !hasVoted) {
+      voteCount += 1
+      hasVoted = true
+    } else if (route.request().method() === 'DELETE' && hasVoted) {
+      voteCount -= 1
+      hasVoted = false
+    }
+
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({ voteCount, hasVoted }),
+    })
+  })
+
+  await page.goto('/movies')
+  await page.getByRole('button', { name: 'Vote (0)' }).click()
+  await expect(page.getByRole('button', { name: 'Remove vote (1)' })).toHaveAttribute('aria-pressed', 'true')
+
+  await page.getByRole('button', { name: 'Remove vote (1)' }).click()
+  await expect(page.getByRole('button', { name: 'Vote (0)' })).toHaveAttribute('aria-pressed', 'false')
 })

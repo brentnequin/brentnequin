@@ -3,8 +3,15 @@ import type { Movie } from '~/types/movie'
 
 const props = defineProps<{
   movie: Movie
-  recommendationCount?: number
   isWatched?: boolean
+  voteCount: number
+  hasVoted: boolean
+  voting?: boolean
+  voteError?: string
+}>()
+
+const emit = defineEmits<{
+  vote: []
 }>()
 
 const posterLoaded = ref(false)
@@ -58,16 +65,25 @@ function handlePosterError(event: Event) {
         {{ movie.releaseDate?.slice(0, 4)  }}
       </p>
 
-      <p v-if="recommendationCount" class="site-tag inline-block px-2 py-1 text-xs">
-        {{ recommendationCount }} recommendation{{ recommendationCount === 1 ? '' : 's' }}
-      </p>
-
       <p
         v-if="isWatched !== undefined"
         class="site-tag inline-block px-2 py-1 text-xs"
         :aria-label="isWatched ? 'Watched' : 'Not watched yet'"
       >
         {{ isWatched ? 'Watched' : 'Not watched yet' }}
+      </p>
+
+      <button
+        type="button"
+        class="site-button-secondary mt-2"
+        :aria-pressed="hasVoted"
+        :disabled="voting"
+        @click="emit('vote')"
+      >
+        {{ voting ? 'Saving...' : hasVoted ? `Remove vote (${voteCount})` : `Vote (${voteCount})` }}
+      </button>
+      <p v-if="voteError" class="text-sm text-red-700" role="alert">
+        {{ voteError }}
       </p>
     </div>
   </article>

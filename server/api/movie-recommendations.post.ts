@@ -1,4 +1,5 @@
 import prisma from '../lib/prisma'
+import { getMovieVoterHash } from '../utils/movieVoter'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
@@ -11,31 +12,40 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const movie = await prisma.movie.upsert({
-    where: { tmdbId },
-    update: {
-      title,
-      posterPath,
-      releaseDate,
-      description,
-    },
-    create: {
-      tmdbId,
-      title,
-      posterPath,
-      releaseDate,
-      description,
-    },
-  })
+  const voterIdHash = getMovieVoterHash(event)
 
-  const recommendation = await prisma.movieRecommendation.create({
-    data: {
-      message: message ?? null,
-      recommendedName: recommendedName ?? null,
-      movie: { connect: { id: movie.id } },
-    },
-    include: { movie: true },
-  })
+  return prisma.$transaction(async (transaction) => {
+    const movie = await transaction.movie.upsert({
+      where: { tmdbId },
+      update: {
+        title,
+        posterPath,
+        releaseDate,
+        description,
+      },
+      create: {
+        tmdbId,
+        title,
+        posterPath,
+        releaseDate,
+        description,
+      },
+    })
 
-  return recommendation
+    const recommendation = await transaction.movieRecommendation.create({
+      data: {
+        message: message ?? null,
+        recommendedName: recommendedName ?? null,
+        movie: { connect: { id: movie.id } },
+      },
+      include: { movie: true },
+    })
+
+    await transaction.movieVote.createMany({
+      data: [{ movieId: movie.id, voterIdHash }],
+      skipDuplicates: true,
+    })
+
+    return recommendation
+  })
 })

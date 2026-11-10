@@ -11,5 +11,11 @@ export interface MovieRecommendation {
 export interface PublicMovieRecommendationGroup {
   movie: Movie
   isWatched: boolean
-  recommendationCount: number
+  voteCount: number
+  hasVoted: boolean
+}
+
+export interface MovieVoteResult {
+  voteCount: number
+  hasVoted: boolean
 }

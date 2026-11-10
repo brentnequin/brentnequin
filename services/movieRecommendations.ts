@@ -1,4 +1,4 @@
-import type { MovieRecommendation, PublicMovieRecommendationGroup } from "~/types/movieRecommendation"
+import type { MovieRecommendation, MovieVoteResult, PublicMovieRecommendationGroup } from "~/types/movieRecommendation"
 import type { PaginatedResponse } from "~/types/pagination"
 
 interface GetRecommendationsOptions {
@@ -37,5 +37,17 @@ export const createRecommendation = (recommendation: CreateRecommendationInput) 
       message: recommendation.message ?? null,
       recommendedName: recommendation.recommendedName ?? null,
     },
+  })
+}
+
+export const addMovieVote = (tmdbId: number) => {
+  return $fetch<MovieVoteResult>(`/api/movies/${tmdbId}/vote`, {
+    method: 'POST',
+  })
+}
+
+export const removeMovieVote = (tmdbId: number) => {
+  return $fetch<MovieVoteResult>(`/api/movies/${tmdbId}/vote`, {
+    method: 'DELETE',
   })
 }
