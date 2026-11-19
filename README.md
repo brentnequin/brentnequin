@@ -40,3 +40,24 @@ Previously, I worked at Epsilon building cloud-based applications and distribute
 * **Website:** [brentnequin.com](https://brentnequin.com)
 * **GitHub:** [github.com/brentnequin](https://github.com/brentnequin)
 * **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/brentnequin/)
+
+### Admin dashboard
+
+The private dashboard is available at `/admin`. It uses GitHub OAuth and only
+allows the account configured in `NUXT_ADMIN_GITHUB_USERNAME` (currently
+`brentnequin`). The Movies section can mark already-recommended movies as
+watched or unwatched. These controls are also protected by server-side session
+checks; the route path is not treated as a security measure.
+
+Create a GitHub OAuth App with the callback URL
+`https://<your-domain>/auth/github` (for local development, use
+`http://localhost:3000/auth/github`). Configure these server environment
+variables:
+
+- `NUXT_OAUTH_GITHUB_CLIENT_ID`
+- `NUXT_OAUTH_GITHUB_CLIENT_SECRET`
+- `NUXT_ADMIN_GITHUB_USERNAME`
+- `NUXT_APP_SECRET` — a unique secret of at least 32 characters in production
+
+Do not expose these values through public runtime configuration or commit real
+credentials. `.env.example` lists the variable names for local setup.
