@@ -8,21 +8,43 @@ export default defineEventHandler(async (event) => {
   const skip = (page - 1) * perPage
 
   const [groups, totalRows] = await Promise.all([
-    prisma.movieRecommendation.groupBy({
-      by: ['movieId'],
-      _count: { _all: true },
-      _max: { createdAt: true },
-      orderBy: [
-        { _count: { movieId: 'desc' } },
-        { _max: { createdAt: 'desc' } },
-        { movieId: 'asc' },
-      ],
-      skip,
-      take: perPage,
-    }),
+    prisma.$queryRaw<Array<{ movieId: number; voteCount: bigint }>>`
+      WITH recommendation_counts AS (
+        SELECT recommendation."movieId", COUNT(*) AS "recommendationCount", MAX(recommendation."createdAt") AS "lastRecommendedAt"
+        FROM "MovieRecommendation" AS recommendation
+        WHERE NOT EXISTS (
+          SELECT 1
+          FROM "MovieViewing" AS viewing
+          WHERE viewing."movieId" = recommendation."movieId"
+        )
+        GROUP BY recommendation."movieId"
+      ),
+      vote_counts AS (
+        SELECT "movieId", COUNT(*) AS "voteCount"
+        FROM "MovieVote"
+        GROUP BY "movieId"
+      )
+      SELECT
+        recommendations."movieId",
+        COALESCE(votes."voteCount", 0) AS "voteCount"
+      FROM recommendation_counts AS recommendations
+      LEFT JOIN vote_counts AS votes ON votes."movieId" = recommendations."movieId"
+      ORDER BY
+        COALESCE(votes."voteCount", 0) DESC,
+        recommendations."recommendationCount" DESC,
+        recommendations."lastRecommendedAt" DESC,
+        recommendations."movieId" ASC
+      LIMIT ${perPage}
+      OFFSET ${skip}
+    `,
     prisma.$queryRaw<Array<{ total: bigint }>>`
-      SELECT COUNT(DISTINCT "movieId") AS total
-      FROM "MovieRecommendation"
+      SELECT COUNT(DISTINCT recommendation."movieId") AS total
+      FROM "MovieRecommendation" AS recommendation
+      WHERE NOT EXISTS (
+        SELECT 1
+        FROM "MovieViewing" AS viewing
+        WHERE viewing."movieId" = recommendation."movieId"
+      )
     `,
   ])
 
@@ -32,21 +54,13 @@ export default defineEventHandler(async (event) => {
   })
   const movieIds = groups.map(group => group.movieId)
   const voterIdHash = getMovieVoterHash(event)
-  const [voteGroups, voterVotes] = await Promise.all([
-    prisma.movieVote.groupBy({
-      by: ['movieId'],
-      where: { movieId: { in: movieIds } },
-      _count: { _all: true },
-    }),
-    prisma.movieVote.findMany({
-      where: {
-        movieId: { in: movieIds },
-        voterIdHash,
-      },
-      select: { movieId: true },
-    }),
-  ])
-  const voteCountsByMovieId = new Map(voteGroups.map(group => [group.movieId, group._count._all]))
+  const voterVotes = await prisma.movieVote.findMany({
+    where: {
+      movieId: { in: movieIds },
+      voterIdHash,
+    },
+    select: { movieId: true },
+  })
   const votedMovieIds = new Set(voterVotes.map(vote => vote.movieId))
   const moviesById = new Map(movies.map(movie => [movie.id, movie]))
   const items = groups.flatMap((group) => {
@@ -59,7 +73,7 @@ export default defineEventHandler(async (event) => {
     return [{
       movie: movieDetails,
       isWatched: viewings.length > 0,
-      voteCount: voteCountsByMovieId.get(group.movieId) ?? 0,
+      voteCount: Number(group.voteCount),
       hasVoted: votedMovieIds.has(group.movieId),
     }]
   })

@@ -93,8 +93,8 @@ async function toggleVote(recommendation: NonNullable<typeof data.value>['items'
       </div>
     </div>
 
-    <section aria-labelledby="recent-recommendations-heading" :aria-busy="pending">
-      <h2 id="recent-recommendations-heading" class="mb-4 text-2xl font-semibold text-black">Recently Recommended</h2>
+    <section aria-labelledby="popular-recommendations-heading" :aria-busy="pending">
+      <h2 id="popular-recommendations-heading" class="mb-4 text-2xl font-semibold text-black">Popular Recommendations</h2>
 
       <div v-if="pending" class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4" role="status" aria-label="Loading movie recommendations">
         <article v-for="skeleton in 8" :key="skeleton" class="site-card animate-pulse overflow-hidden" aria-hidden="true">

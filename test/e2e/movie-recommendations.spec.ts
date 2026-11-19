@@ -50,6 +50,7 @@ test('shows poster skeletons while recommendations are loading', async ({ page }
   const skeletons = page.getByRole('status', { name: 'Loading movie recommendations' })
   await expect(skeletons).toBeVisible()
   await expect(skeletons.locator('article')).toHaveCount(8)
+  await expect(page.getByRole('heading', { name: 'Popular Recommendations' })).toBeVisible()
 
   releaseResponse()
 
@@ -78,9 +79,9 @@ test('shows poster skeletons when navigating from the recommendation form', asyn
   await expect(skeletons).toHaveCount(0)
 })
 
-test('loads more unique recommendations and hides the button when all are shown', async ({ page }) => {
+test('loads more unwatched recommendations and hides the button when all are shown', async ({ page }) => {
   const firstPageItems = Array.from({ length: 8 }, (_, index) => ({
-    isWatched: index === 0,
+    isWatched: false,
     voteCount: index === 0 ? 2 : 0,
     hasVoted: false,
     movie: {
@@ -92,7 +93,7 @@ test('loads more unique recommendations and hides the button when all are shown'
     },
   }))
   const secondPageItems = Array.from({ length: 8 }, (_, index) => ({
-    isWatched: index === 0,
+    isWatched: false,
     voteCount: index === 0 ? 2 : 0,
     hasVoted: false,
     movie: {
@@ -123,15 +124,15 @@ test('loads more unique recommendations and hides the button when all are shown'
   await page.goto('/movies')
   await expect(page.getByRole('heading', { name: 'Recommendation 8' })).toBeVisible()
   await expect(page.locator('article h3')).toHaveCount(8)
-  await expect(page.getByText('Watched', { exact: true })).toHaveCount(1)
-  await expect(page.getByText('Not watched yet', { exact: true })).toHaveCount(7)
+  await expect(page.getByText('Watched', { exact: true })).toHaveCount(0)
+  await expect(page.getByText('Not watched yet', { exact: true })).toHaveCount(8)
   await expect(page.getByRole('button', { name: 'Vote (2)' })).toHaveCount(1)
   await page.getByRole('button', { name: 'Show more movies' }).click()
 
   await expect(page.getByRole('heading', { name: 'Recommendation 16' })).toBeVisible()
   await expect(page.locator('article h3')).toHaveCount(16)
-  await expect(page.getByText('Watched', { exact: true })).toHaveCount(2)
-  await expect(page.getByText('Not watched yet', { exact: true })).toHaveCount(14)
+  await expect(page.getByText('Watched', { exact: true })).toHaveCount(0)
+  await expect(page.getByText('Not watched yet', { exact: true })).toHaveCount(16)
   await expect(page.getByRole('button', { name: 'Vote (2)' })).toHaveCount(2)
   await expect(page.getByRole('button', { name: 'Show more movies' })).toHaveCount(0)
 })
